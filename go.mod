@@ -1,4 +1,4 @@
-module github.com/sasamuku/aws_support_to_github_issue
+module github.com/sasamuku/slack_notice_aws_support
 
 go 1.17
 

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/sasamuku/aws_support_to_github_issue/aws"
+	"github.com/sasamuku/slack_notice_aws_support/aws"
 )
 
 func main() {
