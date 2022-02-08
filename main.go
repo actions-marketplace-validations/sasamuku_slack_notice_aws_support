@@ -1,9 +1,30 @@
 package main
 
 import (
-	"github.com/sasamuku/aws_support_to_github_issue/aws"
+	"log"
+	"os"
+	"strconv"
+	"time"
+
+	"github.com/sasamuku/slack_notice_aws_support/aws"
+	"github.com/sasamuku/slack_notice_aws_support/slack"
 )
 
 func main() {
-	aws.GetCases()
+	now := time.Now().UTC()
+	lastYear := now.AddDate(-1, 0, 0)
+	beforetime := now.Format(time.RFC3339)
+	aftertime := lastYear.Format(time.RFC3339)
+
+	include_resolved_cases := os.Getenv("INPUT_INCLUDE_RESOLVED_CASES")
+	language := os.Getenv("INPUT_LANGUAGE")
+	webhookUrl := os.Getenv("INPUT_WEBHOOK_URL")
+	include_resolved_cases_b, err := strconv.ParseBool(include_resolved_cases)
+	if err != nil {
+		log.Fatal(err)
+	}
+	input := aws.NewDescribeCasesInput(aftertime, beforetime, language, include_resolved_cases_b)
+	cases := aws.GetCases(input)
+
+	slack.Notify(cases, webhookUrl)
 }
