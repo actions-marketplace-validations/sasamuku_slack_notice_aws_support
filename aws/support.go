@@ -9,10 +9,11 @@ import (
 )
 
 type Case struct {
-	Subject    string `json:"subject"`
-	Status     string `json:"status"`
-	SubmitteBy string `json:"submitteBy"`
-	Url        string `json:"url"`
+	Subject     string `json:"subject"`
+	Status      string `json:"status"`
+	SubmitteBy  string `json:"submitteBy"`
+	TimeCreated string `json:"timeCreated"`
+	Url         string `json:"url"`
 }
 
 func NewDescribeCasesInput(aftertime, beforetime, language string, include bool) *support.DescribeCasesInput {
@@ -50,10 +51,11 @@ func ArrangeCases(output *support.DescribeCasesOutput) *[]Case {
 	outputCases := output.Cases
 	for _, c := range outputCases {
 		eachCase := Case{
-			Subject:    *c.Subject,
-			Status:     *c.Status,
-			SubmitteBy: *c.SubmittedBy,
-			Url:        "",
+			Subject:     *c.Subject,
+			Status:      *c.Status,
+			SubmitteBy:  *c.SubmittedBy,
+			TimeCreated: *c.TimeCreated,
+			Url:         "",
 		}
 		cases = append(cases, eachCase)
 	}
