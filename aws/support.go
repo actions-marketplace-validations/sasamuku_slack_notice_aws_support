@@ -15,12 +15,12 @@ type Case struct {
 	Url        string `json:"url"`
 }
 
-func NewDescribeCasesInput(aftertime, beforetime, language string) *support.DescribeCasesInput {
+func NewDescribeCasesInput(aftertime, beforetime, language string, include bool) *support.DescribeCasesInput {
 	return &support.DescribeCasesInput{
 		AfterTime:            &aftertime,
 		BeforeTime:           &beforetime,
 		Language:             &language,
-		IncludeResolvedCases: true,
+		IncludeResolvedCases: include,
 	}
 }
 

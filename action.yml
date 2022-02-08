@@ -1,0 +1,20 @@
+name: 'Slack Notice AWS Support'
+description: 'Notify slack of AWS support case with subject, status, submitteby and url'
+author: 'sasamuku'
+inputs:
+  include_resolved_cases:
+    description: 'Specifies whether to include resolved support cases'
+    required: false
+    default: 'false'
+  language:
+    description: 'AWS Support supports English ("en") and Japanese ("ja")'
+    required: true
+  webhook_url:
+    description: 'A Slack webhook url of your channel'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+branding:
+  icon: 'slack'
+  color: 'orange'
