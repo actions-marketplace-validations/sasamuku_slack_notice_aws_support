@@ -10,7 +10,8 @@ import (
 )
 
 type Payload struct {
-	Text string `json:"text"`
+	Username string `json:"username"`
+	Text     string `json:"text"`
 }
 
 func Notify(cases *[]aws.Case, webhookUrl string) {
@@ -18,7 +19,10 @@ func Notify(cases *[]aws.Case, webhookUrl string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	payload, err := json.Marshal(Payload{Text: string(jsonCases)})
+	payload, err := json.Marshal(Payload{
+		Username: "AWS Support Case Notice",
+		Text:     string(jsonCases),
+	})
 	if err != nil {
 		log.Fatal(err)
 	}
