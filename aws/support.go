@@ -25,7 +25,7 @@ func NewDescribeCasesInput(aftertime, beforetime, language string, include bool)
 	}
 }
 
-func GetCases(input *support.DescribeCasesInput) *[]Case {
+func GetCases(input *support.DescribeCasesInput) []*Case {
 	// Load the Shared AWS Configuration (~/.aws/config)
 	cfg, err := config.LoadDefaultConfig(
 		context.TODO(),
@@ -45,8 +45,8 @@ func GetCases(input *support.DescribeCasesInput) *[]Case {
 	return cases
 }
 
-func ArrangeCases(output *support.DescribeCasesOutput) *[]Case {
-	cases := []Case{}
+func ArrangeCases(output *support.DescribeCasesOutput) []*Case {
+	var cases []*Case
 
 	outputCases := output.Cases
 	for _, c := range outputCases {
@@ -57,7 +57,7 @@ func ArrangeCases(output *support.DescribeCasesOutput) *[]Case {
 			TimeCreated: *c.TimeCreated,
 			Url:         "",
 		}
-		cases = append(cases, eachCase)
+		cases = append(cases, &eachCase)
 	}
-	return &cases
+	return cases
 }

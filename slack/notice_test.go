@@ -28,11 +28,11 @@ func Test_Notify(t *testing.T) {
 	defer ts.Close()
 
 	tests := map[string]struct {
-		cases      *[]aws.Case
+		cases      []*aws.Case
 		webhookUrl string
 	}{
 		"existed": {
-			cases: &[]aws.Case{
+			cases: []*aws.Case{
 				{
 					Subject:     "Test",
 					Status:      "opened",
@@ -44,7 +44,7 @@ func Test_Notify(t *testing.T) {
 			webhookUrl: ts.URL + "/",
 		},
 		"empty": {
-			cases:      &[]aws.Case{},
+			cases:      []*aws.Case{},
 			webhookUrl: ts.URL + "/",
 		},
 	}
