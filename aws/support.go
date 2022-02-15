@@ -55,7 +55,7 @@ func ArrangeCases(output *support.DescribeCasesOutput) []*Case {
 			Status:      *c.Status,
 			SubmitteBy:  *c.SubmittedBy,
 			TimeCreated: *c.TimeCreated,
-			Url:         "",
+			Url:         "https://console.aws.amazon.com/support/home#/case/?displayId=" + *c.DisplayId + "%26language=ja",
 		}
 		cases = append(cases, &eachCase)
 	}

@@ -26,7 +26,12 @@ func Notify(cases []*aws.Case, webhookUrl string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	resp, err := http.PostForm(webhookUrl, url.Values{"payload": {string(payload)}})
+
+	unescapePayload, err := url.QueryUnescape(string(payload))
+	if err != nil {
+		log.Fatal(err)
+	}
+	resp, err := http.PostForm(webhookUrl, url.Values{"payload": {unescapePayload}})
 	if err != nil {
 		log.Fatal(err)
 	}
