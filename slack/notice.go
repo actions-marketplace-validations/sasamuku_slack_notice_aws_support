@@ -1,7 +1,9 @@
 package slack
 
 import (
+	"bytes"
 	"encoding/json"
+	"html/template"
 	"log"
 	"net/http"
 	"net/url"
@@ -15,13 +17,29 @@ type Payload struct {
 }
 
 func Notify(cases []*aws.Case, webhookUrl string) {
-	jsonCases, err := json.Marshal(cases)
+	text := `Subject: {{ .Subject }}
+Status: {{ .Status }}
+SubmitteBy: {{ .SubmitteBy }}
+TimeCreated: {{ .TimeCreated }}
+Url: {{ .Url }}
+`
+	tpl, err := template.New("").Parse(text)
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	var consolidatedCases string
+	for _, c := range cases {
+		var buf bytes.Buffer
+		if err := tpl.Execute(&buf, &c); err != nil {
+			log.Fatal(err)
+		}
+		consolidatedCases = consolidatedCases + buf.String() + "---\n"
+	}
+
 	payload, err := json.Marshal(Payload{
 		Username: "AWS Support Case Notice",
-		Text:     string(jsonCases),
+		Text:     consolidatedCases,
 	})
 	if err != nil {
 		log.Fatal(err)
