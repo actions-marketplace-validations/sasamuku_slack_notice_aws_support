@@ -14,7 +14,7 @@ type Payload struct {
 	Text     string `json:"text"`
 }
 
-func Notify(cases *[]aws.Case, webhookUrl string) {
+func Notify(cases []*aws.Case, webhookUrl string) {
 	jsonCases, err := json.Marshal(cases)
 	if err != nil {
 		log.Fatal(err)
