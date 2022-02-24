@@ -51,7 +51,7 @@ func NewPayload(username, text string) *Payload {
 	}
 }
 
-func (p *Payload) toString() string {
+func (p *Payload) toUnescapedJson() string {
 	jsonPayload, err := json.Marshal(&p)
 	if err != nil {
 		log.Fatal(err)
@@ -71,7 +71,7 @@ func NewSlackNotice(webhookUrl string, payload *Payload) *SlackNotice {
 }
 
 func (s *SlackNotice) Run() {
-	resp, err := http.PostForm(s.WebhookUrl, url.Values{"payload": {s.Payload.toString()}})
+	resp, err := http.PostForm(s.WebhookUrl, url.Values{"payload": {s.Payload.toUnescapedJson()}})
 	if err != nil {
 		log.Fatal(err)
 	}
