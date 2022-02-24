@@ -12,7 +12,7 @@ import (
 	"github.com/sasamuku/slack_notice_aws_support/aws"
 )
 
-func Test_Notify(t *testing.T) {
+func Test_Notice(t *testing.T) {
 	var message string
 
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
