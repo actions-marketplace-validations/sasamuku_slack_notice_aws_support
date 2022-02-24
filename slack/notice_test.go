@@ -12,7 +12,7 @@ import (
 	"github.com/sasamuku/slack_notice_aws_support/aws"
 )
 
-func Test_Notify(t *testing.T) {
+func Test_Notice(t *testing.T) {
 	var message string
 
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -51,10 +51,13 @@ func Test_Notify(t *testing.T) {
 
 	for name, tt := range tests {
 		t.Run(name, func(t *testing.T) {
-			Notify(tt.cases, tt.webhookUrl)
-			payload := Payload{}
-			json.Unmarshal([]byte(message), &payload)
-			fmt.Println(payload.Text)
+			payload := NewPayload("AWS Support Case Notice", ConvertToNoticeFormat(tt.cases))
+			notice := NewSlackNotice(tt.webhookUrl, payload)
+			notice.Run()
+
+			var sentPayload Payload
+			json.Unmarshal([]byte(message), &sentPayload)
+			fmt.Println(sentPayload.Text)
 		})
 	}
 }

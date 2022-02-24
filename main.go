@@ -23,8 +23,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	input := aws.NewDescribeCasesInput(aftertime, beforetime, language, include_resolved_cases_b)
 	cases := aws.GetCases(input)
 
-	slack.Notify(cases, webhookUrl)
+	payload := slack.NewPayload("AWS Support Case Notice", slack.ConvertToNoticeFormat(cases))
+	notice := slack.NewSlackNotice(webhookUrl, payload)
+	notice.Run()
 }
