@@ -1,37 +1,34 @@
 package slack
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"net/url"
-	"strings"
 	"testing"
 
 	"github.com/sasamuku/slack_notice_aws_support/aws"
 )
 
 func Test_Notice(t *testing.T) {
-	var message string
-
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		len := r.ContentLength
 		body := make([]byte, len)
 		r.Body.Read(body)
 		fmt.Fprintln(w, body)
-
-		message, _ = url.QueryUnescape(string(body))
-		message = strings.Replace(message, "payload=", "", 1)
 	})
 	ts := httptest.NewServer(handler)
 	defer ts.Close()
 
+	type wants struct {
+		statusCode int
+	}
+
 	tests := map[string]struct {
 		cases      []*aws.Case
 		webhookUrl string
+		wants      wants
 	}{
-		"existed": {
+		"ok": {
 			cases: []*aws.Case{
 				{
 					Subject:     "Test",
@@ -42,10 +39,12 @@ func Test_Notice(t *testing.T) {
 				},
 			},
 			webhookUrl: ts.URL + "/",
+			wants:      wants{statusCode: 200},
 		},
-		"empty": {
+		"ok_empty_cases": {
 			cases:      []*aws.Case{},
 			webhookUrl: ts.URL + "/",
+			wants:      wants{statusCode: 200},
 		},
 	}
 
@@ -53,11 +52,9 @@ func Test_Notice(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			payload := NewPayload("AWS Support Case Notice", ConvertToNoticeFormat(tt.cases))
 			notice := NewSlackNotice(tt.webhookUrl, payload)
-			notice.Run()
-
-			var sentPayload Payload
-			json.Unmarshal([]byte(message), &sentPayload)
-			fmt.Println(sentPayload.Text)
+			if statusCode := notice.Run(); statusCode != tt.wants.statusCode {
+				t.Fatalf("run() status: got = %v, want = %v", statusCode, tt.wants.statusCode)
+			}
 		})
 	}
 }
