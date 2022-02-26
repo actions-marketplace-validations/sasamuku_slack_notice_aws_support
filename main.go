@@ -25,9 +25,9 @@ func main() {
 	}
 
 	input := aws.NewDescribeCasesInput(aftertime, beforetime, language, include_resolved_cases_b)
-	cases := aws.GetCases(input)
+	caseList := aws.GetCaseList(input)
 
-	payload := slack.NewPayload("AWS Support Case Notice", slack.ConvertToNoticeFormat(cases))
+	payload := slack.NewPayload("AWS Support Case Notice", slack.ConvertToNoticeFormat(caseList))
 	notice := slack.NewSlackNotice(webhookUrl, payload)
 	notice.Run()
 }
