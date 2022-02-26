@@ -26,6 +26,13 @@ func NewDescribeCasesInput(aftertime, beforetime, language string, include bool)
 }
 
 func GetCases(input *support.DescribeCasesInput) []*Case {
+	client := loadConfig()
+	output := outputCases(client, input)
+	cases := arrangeCases(output)
+	return cases
+}
+
+func loadConfig() *support.Client {
 	// Load the Shared AWS Configuration (~/.aws/config)
 	cfg, err := config.LoadDefaultConfig(
 		context.TODO(),
@@ -33,19 +40,18 @@ func GetCases(input *support.DescribeCasesInput) []*Case {
 	if err != nil {
 		log.Fatal(err)
 	}
+	return support.NewFromConfig(cfg)
+}
 
-	client := support.NewFromConfig(cfg)
-
-	output, err := client.DescribeCases(context.TODO(), input)
+func outputCases(c *support.Client, i *support.DescribeCasesInput) *support.DescribeCasesOutput {
+	output, err := c.DescribeCases(context.TODO(), i)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	cases := ArrangeCases(output)
-	return cases
+	return output
 }
 
-func ArrangeCases(output *support.DescribeCasesOutput) []*Case {
+func arrangeCases(output *support.DescribeCasesOutput) []*Case {
 	var cases []*Case
 
 	caseDetails := output.Cases
