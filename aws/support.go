@@ -48,8 +48,8 @@ func GetCases(input *support.DescribeCasesInput) []*Case {
 func ArrangeCases(output *support.DescribeCasesOutput) []*Case {
 	var cases []*Case
 
-	outputCases := output.Cases
-	for _, c := range outputCases {
+	caseDetails := output.Cases
+	for _, c := range caseDetails {
 		eachCase := Case{
 			Subject:     *c.Subject,
 			Status:      *c.Status,
