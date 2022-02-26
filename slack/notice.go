@@ -70,10 +70,12 @@ func NewSlackNotice(webhookUrl string, payload *Payload) *SlackNotice {
 	}
 }
 
-func (s *SlackNotice) Run() {
+func (s *SlackNotice) Run() (statusCode int) {
 	resp, err := http.PostForm(s.WebhookUrl, url.Values{"payload": {s.Payload.toUnescapedJson()}})
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer resp.Body.Close()
+
+	return resp.StatusCode
 }
