@@ -24,7 +24,7 @@ type Payload struct {
 func ConvertToNoticeFormat(cases []*aws.Case) string {
 	text := `Subject: {{ .Subject }}
 Status: {{ .Status }}
-SubmitteBy: {{ .SubmitteBy }}
+SubmittedBy: {{ .SubmittedBy }}
 TimeCreated: {{ .TimeCreated }}
 Url: {{ .Url }}
 `

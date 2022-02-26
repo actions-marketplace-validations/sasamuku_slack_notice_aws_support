@@ -12,7 +12,7 @@ import (
 type Case struct {
 	Subject     string `json:"subject"`
 	Status      string `json:"status"`
-	SubmitteBy  string `json:"submitteBy"`
+	SubmittedBy string `json:"SubmittedBy"`
 	TimeCreated string `json:"timeCreated"`
 	Url         string `json:"url"`
 }
@@ -64,7 +64,7 @@ func makeCaseList(cd []types.CaseDetails) []*Case {
 		eachCase := Case{
 			Subject:     *c.Subject,
 			Status:      *c.Status,
-			SubmitteBy:  *c.SubmittedBy,
+			SubmittedBy: *c.SubmittedBy,
 			TimeCreated: *c.TimeCreated,
 			Url:         "https://console.aws.amazon.com/support/home#/case/?displayId=" + *c.DisplayId + "%26language=" + *c.Language,
 		}
