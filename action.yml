@@ -1,5 +1,5 @@
 name: 'Slack Notice AWS Support'
-description: 'Notify slack of AWS support case with subject, status, submitteby and url'
+description: 'Notify slack of AWS support case with subject, status, submittedby, timecreated and url'
 author: 'sasamuku'
 inputs:
   include_resolved_cases:
