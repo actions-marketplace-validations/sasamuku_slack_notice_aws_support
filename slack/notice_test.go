@@ -33,7 +33,7 @@ func Test_Notice(t *testing.T) {
 				{
 					Subject:     "Test",
 					Status:      "opened",
-					SubmitteBy:  "user@example.com",
+					SubmittedBy: "user@example.com",
 					TimeCreated: "2021-03-01T01:43:57.974Z",
 					Url:         "https://console.aws.amazon.com/support/home#/case/?displayId=12345%26language=ja",
 				},
@@ -53,7 +53,7 @@ func Test_Notice(t *testing.T) {
 			payload := NewPayload("AWS Support Case Notice", ConvertToNoticeFormat(tt.cases))
 			notice := NewSlackNotice(tt.webhookUrl, payload)
 			if statusCode := notice.Run(); statusCode != tt.wants.statusCode {
-				t.Fatalf("run() status: got = %v, want = %v", statusCode, tt.wants.statusCode)
+				t.Fatalf("Fail: got = %v, want = %v", statusCode, tt.wants.statusCode)
 			}
 		})
 	}
