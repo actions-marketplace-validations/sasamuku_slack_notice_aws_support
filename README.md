@@ -2,6 +2,8 @@
 
 Notify slack of AWS support case with subject, status, submittedby, timecreated and url. It requires setting up [aws-actions/configure-aws-credentials](https://github.com/marketplace/actions/configure-aws-credentials-action-for-github-actions) and activating [Imcomming Webhooks](https://api.slack.com/messaging/webhooks).
 
+![slack_sample](https://user-images.githubusercontent.com/65695538/155986836-8be88c7f-8b2f-4ee5-a3ee-d7572e37785c.png)
+
 ## Usage
 Configure aws credentials before using this action.
 
